@@ -1,0 +1,25 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/logs/**/*
+/pkg/
+/spec/reports/
+/tmp/**/
+/tmp/
+/vendor/
+
+Makefile
+
+# rspec failure tracking
+.rspec_status
+
+.byebug_history
+
+.env
+.env.test
+.env.development
+
+.DS_Store
+.ruby-version

@@ -8,7 +8,7 @@ Dir[Pathname(__FILE__).dirname.join("support/**/*.rb").to_s].sort.each do |file|
   require file
 end
 
-require "sw-base_services"
+require "hanikamu-service"
 
 require "byebug"
 

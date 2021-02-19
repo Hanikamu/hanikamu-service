@@ -19,7 +19,7 @@ Services enforce a pattern design as service objects.
 
 #### Principles
 
-- Service will implement ONLY a .call! and .call public instance method.
+- Service will implement ONLY a .call! public instance method.
 
 - A Service.call! will success on it's task or will raise an error
 
@@ -27,20 +27,15 @@ Services enforce a pattern design as service objects.
 
 - Service.call will success on it's task returning a monadic Success reponse or will fail returning a monadic Failure
 
-- .call will only catch a set of known Service Errors
+- .call will only catch a set of known Service Errors inheriting from Hanikamu::Service::WhiteListedError and it's implemented as a wrapper of .call!
 
 
 #### Responsibilities
 
-- Validation of the input/arguments types (dry-types)
+- Validation of the input/arguments types (dry-struct)
 
 
 #### Requirements
-
-- A Service will be a descendant of BaseService
-
-- A Service only implements `.call!` public instance method. The '.call' method is provided by BaseService
-
 
 - A Service should have a class comment describing the business logic performed.
 

@@ -2,11 +2,11 @@
 
 require "spec_helper"
 
-RSpec.describe Sw::BaseServices::Base do
+RSpec.describe Hanikamu::Service do
   describe "#new" do
     it "is private" do
       expect { described_class.new }
-        .to raise_error(NoMethodError, "private method `new' called for Sw::BaseServices::Base:Class")
+        .to raise_error(NoMethodError, "private method `new' called for Hanikamu::Service:Class")
     end
   end
 
