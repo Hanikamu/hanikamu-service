@@ -7,7 +7,7 @@ module Hanikamu
   # :nodoc
   class Service < Dry::Struct
     include Dry::Monads[:result]
-    WhiteListedError = Class.new(StandardError)
+    Error = Class.new(StandardError)
 
     class << self
       def call(options = {})
@@ -31,8 +31,8 @@ module Hanikamu
     end
 
     def whitelisted_error?(error_klass)
-      error_klass.is_a?(WhiteListedError) ||
-        error_klass.superclass == WhiteListedError
+      error_klass.is_a?(Error) ||
+        error_klass.superclass == Hanikamu::Service::Error
     end
 
     private_class_method :new

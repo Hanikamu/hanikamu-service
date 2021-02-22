@@ -10,7 +10,7 @@ end
 
 require "hanikamu-service"
 
-require "byebug"
+require "pry"
 
 RSpec.configure do |config|
   config.disable_monkey_patching!

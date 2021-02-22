@@ -20,7 +20,7 @@ RSpec.describe Hanikamu::Service do
     context "with a failing service" do
       let(:failing_service) do
         Class.new(described_class) do
-          CustomError = Class.new(self::WhiteListedError)
+          CustomError = Class.new(self::Error)
           def call!
             raise CustomError, "Oh, yes!"
           end

@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_dependency "dry-struct", "~> 1"
 
   s.add_development_dependency "bundler", ">= 2"
-  s.add_development_dependency "byebug", ">= 3.4"
+  s.add_development_dependency "pry", ">= 0.14.0"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~> 3.0"
 end
