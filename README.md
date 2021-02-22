@@ -1,5 +1,6 @@
-![Specs](https://github.com/github/docs/actions/workflows/ci.yml/badge.svg)
+# hanikamu-service
 
+[![ci](https://github.com/Hanikamu/hanikamu-service/actions/workflows/ci.yml/badge.svg)](https://github.com/Hanikamu/hanikamu-service/actions/workflows/ci.yml)
 
 ## Services
 

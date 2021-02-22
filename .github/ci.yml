@@ -33,7 +33,6 @@ jobs:
         - ruby: 2.7.0
     env:
       COVERAGE: "${{matrix.coverage}}"
-      COVERAGE_TOKEN: "${{secrets.CODACY_PROJECT_TOKEN}}"
     steps:
     - name: Checkout
       uses: actions/checkout@v1
