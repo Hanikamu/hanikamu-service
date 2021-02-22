@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version = "0.1.0"
   s.authors = ["Nicolai Seerup", "Alejandro Jimenez"]
   s.summary = "This is the base service for all pattern designs used in hanikamu design"
-  s.required_ruby_version = "~> 2.7"
+  s.required_ruby_version = "> 2.5"
 
   s.files = Dir["{config,lib}/**/*", "Rakefile"]
   s.require_paths = ["lib"]
