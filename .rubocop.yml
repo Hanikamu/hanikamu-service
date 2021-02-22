@@ -1,0 +1,64 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rspec
+  - rubocop-performance
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
+  Exclude:
+    - "vendor/**/*" # For CI
+    - "db/schema.rb"
+    - "db/seeds/*"
+    - "lib/tasks/*"
+    - "bin/*"
+    - "node_modules/**/*"
+    - "tmp/**/*"
+    - "spec/**/*_spec.rb"
+    - "spec/support/*.rb"
+    - "gems/sw_mqtt/spec/support/*.rb"
+    - "gems/sw_mqtt/spec/**/*_spec.rb"
+  UseCache: false
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  Include:
+    - "app/**/*"
+    - "lib/**/*"
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Disable for now, since we have too many branches which would cause merge conflicts
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+
+Layout/IndentationConsistency:
+  EnforcedStyle: normal
+
+Layout/EmptyLines:
+  Enabled: true
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/MutableConstant:
+  Enabled: true
+
+Lint/RescueException:
+  Enabled: true
+
+Lint/RescueType:
+  Enabled: true
+
+Lint/Debugger:
+  Enabled: true
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 30
