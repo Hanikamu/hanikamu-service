@@ -13,7 +13,7 @@ module Hanikamu
       def call(options = {})
         options.empty? ? new.call : new(options)&.call
       rescue Dry::Struct::Error => e
-        self::Failure.new(e.message)
+        self::Failure.new(e)
       end
 
       def call!(options = {})
@@ -25,7 +25,7 @@ module Hanikamu
     def call
       Success(call!)
     rescue => e
-      return Failure(e.message) if whitelisted_error?(e.class)
+      return Failure(e) if whitelisted_error?(e.class)
 
       raise
     end

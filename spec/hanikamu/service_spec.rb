@@ -29,6 +29,9 @@ RSpec.describe Hanikamu::Service do
 
       it "returns a failure monad for errors inheriting from WhiteListedError" do
         expect(failing_service.call).to be_a(Dry::Monads::Failure)
+        expect(failing_service.call.failure).to be_a(CustomError)
+        expect(failing_service.call.failure.message).to eq("Oh, yes!")
+        expect(failing_service.call.failure.class.superclass).to be(Hanikamu::Service::Error)
       end
 
       it "raises an error when is a none WhiteListedError" do
