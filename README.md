@@ -76,29 +76,29 @@ Errors can be corrected by the client passing different input types to the opera
       response_method
     end
 
-    private
-
     attr_reader :something, :something_else 
 
     Response = Struct(:nice_semantic_response, keyword_init: true)
 
     def do_something
-      raise ServiceFailure,  if string_args.empty?
+      raise Error, "something is missing"  if string_args.empty?
       @something ||= FindSomeThingInDb.find(string_arg)
     end
 
     def do_something_else
-      raise Sw::Bridge::GuardError if string_args.empty?
+      raise Error, "something else is missing" if string_args.empty?
       @something_else ||= something.else
     end
 
     def response_method
-      # could be any thing. In this example a Struct object.(return_only_the_banana)
-      Response.new(meaningful_name: something_else)
+      # could be anything. In this example a Struct object.(return_only_the_banana)
+      Response.new(nice_semantic_response: do_something_else)
     end
   end
 
-  MyNewService.call!
+  response = MyNewService.call!(string_arg: "Hola caracola")
 
-  MyNewService.call.success if MyNewService.call.success?
+  monadic_response = MyNewService.call(string_arg: "Hola caracola")
+  monadic_response.success if monadic_response.success?
+
 ```
