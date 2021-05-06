@@ -9,6 +9,9 @@ Gem::Specification.new do |s|
   s.summary = "This is the base service for all pattern designs used in hanikamu design"
   s.required_ruby_version = "> 2.5"
 
+  s.homepage      = "https://github.com/Hanikamu/hanikamu-service"
+  s.license       = "MIT"
+
   s.files = Dir["{config,lib}/**/*", "Rakefile"]
   s.require_paths = ["lib"]
 
