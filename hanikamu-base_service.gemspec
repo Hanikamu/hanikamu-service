@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path("lib", __dir__)
 
 Gem::Specification.new do |s|
   s.name = "hanikamu-service"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
   s.authors = ["Nicolai Seerup", "Alejandro Jimenez"]
   s.summary = "This is the base service for all pattern designs used in hanikamu design"
   s.required_ruby_version = "> 2.5"

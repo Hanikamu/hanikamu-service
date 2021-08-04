@@ -44,10 +44,10 @@ Services enforce a pattern design as service objects.
 - A Service should have a class comment describing the business logic performed.
 
 - A Service should return an specific exception with an error message plus an error object if something fails. Ex.g.:
-  - Sw::Bridge::GuardError
+  - MyApplication::Errors::GuardError
 
 - A Service has maximum two public methods: `.call` or/and it's sibling `call!`
-  - `.call!` always raises a specific exception in case of errors (ex.g. Sw::Bridge::InvalidSchemaError, or Sw::Bridge::InvalidFormError)
+  - `.call!` always raises a specific exception in case of errors (ex.g. MyApplication::Errors::InvalidSchemaError, or MyApplication::Errors::InvalidFormError)
 
   - `.call` always returns a dry-rb monad, either Success or Failure (https://dry-rb.org/gems/dry-monads/).
 
@@ -67,8 +67,12 @@ Errors can be corrected by the client passing different input types to the opera
 
 
 ```ruby
-  class MyNewService < BaseService
-    attributes :string_arg, Types::Strict::String
+  module Types
+    include Dry.Types()
+  end
+
+  class MyNewService < Hanikamu::Service
+    attribute :string_arg, Types::Strict::String
 
     def call!
       do_something
@@ -78,16 +82,16 @@ Errors can be corrected by the client passing different input types to the opera
 
     attr_reader :something, :something_else 
 
-    Response = Struct(:nice_semantic_response, keyword_init: true)
+    Response = Struct.new(:nice_semantic_response, keyword_init: true)
 
     def do_something
-      raise Error, "something is missing"  if string_args.empty?
-      @something ||= FindSomeThingInDb.find(string_arg)
+      raise Error, "something is missing"  if string_arg.empty?
+      # @something ||= FindSomeThingInDb.find(string_arg)
     end
 
     def do_something_else
-      raise Error, "something else is missing" if string_args.empty?
-      @something_else ||= something.else
+      raise Error, "something else is missing" if string_arg.empty?
+      "You said: #{string_arg}"
     end
 
     def response_method

@@ -31,7 +31,7 @@ module Hanikamu
     end
 
     def whitelisted_error?(error_klass)
-      error_klass.is_a?(Error) ||
+      error_klass == Hanikamu::Service::Error ||
         error_klass.superclass == Hanikamu::Service::Error
     end
 

@@ -19,19 +19,39 @@ RSpec.describe Hanikamu::Service do
   describe "#call" do
     context "with a failing service" do
       let(:failing_service) do
-        Class.new(described_class) do
+        stub_const("TestFooModule", Module.new)
+        class TestFooModule::Bar < Hanikamu::Service
           CustomError = Class.new(self::Error)
           def call!
             raise CustomError, "Oh, yes!"
           end
         end
+        TestFooModule::Bar
       end
 
       it "returns a failure monad for errors inheriting from WhiteListedError" do
         expect(failing_service.call).to be_a(Dry::Monads::Failure)
-        expect(failing_service.call.failure).to be_a(CustomError)
+        expect(failing_service.call.failure).to be_a(failing_service::CustomError)
         expect(failing_service.call.failure.message).to eq("Oh, yes!")
         expect(failing_service.call.failure.class.superclass).to be(Hanikamu::Service::Error)
+      end
+
+      context "when using the custom service error" do
+        let(:failing_service) do
+          stub_const("TestFooModule", Module.new)
+          class TestFooModule::Bar < Hanikamu::Service
+            def call!
+              raise Error, "Oh, no!"
+            end
+          end
+          TestFooModule::Bar
+        end
+
+        it "returns a failure monad for Hanikamu::Service::Error" do
+          expect(failing_service.call).to be_a(Dry::Monads::Failure)
+          expect(failing_service.call.failure.message).to eq("Oh, no!")
+          expect(failing_service.call.failure.class).to be(Hanikamu::Service::Error)
+        end
       end
 
       it "raises an error when is a none WhiteListedError" do
