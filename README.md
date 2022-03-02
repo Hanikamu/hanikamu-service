@@ -77,7 +77,8 @@ Errors can be corrected by the client passing different input types to the opera
     def call!
       do_something
       do_something_else
-      response_method
+
+      response nice_semantic_response: do_something_else
     end
 
     attr_reader :something, :something_else 
@@ -93,16 +94,10 @@ Errors can be corrected by the client passing different input types to the opera
       raise Error, "something else is missing" if string_arg.empty?
       "You said: #{string_arg}"
     end
-
-    def response_method
-      # could be anything. In this example a Struct object.(return_only_the_banana)
-      Response.new(nice_semantic_response: do_something_else)
-    end
   end
 
   response = MyNewService.call!(string_arg: "Hola caracola")
 
   monadic_response = MyNewService.call(string_arg: "Hola caracola")
   monadic_response.success if monadic_response.success?
-
 ```

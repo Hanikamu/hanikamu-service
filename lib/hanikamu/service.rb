@@ -35,6 +35,12 @@ module Hanikamu
         error_klass.superclass == Hanikamu::Service::Error
     end
 
+    def response(**args)
+      klass = self.class
+      klass.const_set(:Response, Struct.new(*args.keys, keyword_init: true)) unless klass.const_defined?(:Response)
+      klass::Response.new(**args)
+    end
+
     private_class_method :new
   end
 end

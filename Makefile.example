@@ -1,0 +1,14 @@
+
+	
+ifeq ($(NIX_TYPE),Linux)
+	SED_OPTS = -i
+endif
+
+ifeq ($(NIX_TYPE),Darwin)
+	SED_OPTS = -i ""
+endif
+
+
+.PHONY: shell
+shell: ## access to the system console
+	docker-compose run --rm app sh

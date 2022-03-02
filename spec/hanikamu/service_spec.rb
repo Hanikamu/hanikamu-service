@@ -6,7 +6,7 @@ RSpec.describe Hanikamu::Service do
   describe "#new" do
     it "is private" do
       expect { described_class.new }
-        .to raise_error(NoMethodError, "private method `new' called for Hanikamu::Service:Class")
+        .to raise_error(NoMethodError)
     end
   end
 
@@ -59,6 +59,23 @@ RSpec.describe Hanikamu::Service do
 
         expect { failing_service.call }.to raise_error(StandardError, "Oh, no!")
       end
+    end
+  end
+
+  context "when using response helper" do
+    let(:response_service) do
+      stub_const("TestFooModule", Module.new)
+      class TestFooModule::Bar < Hanikamu::Service
+        def call!
+          response hola: "caracola"
+        end
+      end
+      TestFooModule::Bar
+    end
+
+    it "responses with a Struct class" do
+      expect(response_service.call!).to be_a(Struct)
+      expect(response_service.call!.hola).to be("caracola")
     end
   end
 end
