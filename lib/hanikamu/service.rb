@@ -21,6 +21,7 @@ module Hanikamu
       end
     end
 
+    private
     # `call` should not be implemented in subclasses
     def call
       Success(call!)
