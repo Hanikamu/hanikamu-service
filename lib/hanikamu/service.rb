@@ -11,24 +11,27 @@ module Hanikamu
 
     class << self
       def call(options = {})
-        # binding.pry
         Success(call!(options))
-      rescue  => e
+      rescue StandardError => e
         return Failure.new(e) if whitelisted_error?(e.class)
+
         raise e
       end
 
       def call!(options = {})
         options.empty? ? new.send(:call!) : new(options).send(:call!)
       end
+
+      private
+
+      def whitelisted_error?(error_klass)
+        error_klass == Hanikamu::Service::Error ||
+          error_klass.superclass == Hanikamu::Service::Error ||
+          error_klass == Dry::Struct::Error
+      end
     end
 
     private
-    def self.whitelisted_error?(error_klass)
-      error_klass == Hanikamu::Service::Error ||
-        error_klass.superclass == Hanikamu::Service::Error ||
-        error_klass == Dry::Struct::Error
-    end
 
     def response(**args)
       klass = self.class
