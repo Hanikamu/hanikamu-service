@@ -6,34 +6,28 @@ require "dry-monads"
 module Hanikamu
   # :nodoc
   class Service < Dry::Struct
-    include Dry::Monads[:result]
+    extend Dry::Monads[:result]
     Error = Class.new(StandardError)
 
     class << self
       def call(options = {})
-        options.empty? ? new.call : new(options)&.call
-      rescue Dry::Struct::Error => e
-        self::Failure.new(e)
+        # binding.pry
+        Success(call!(options))
+      rescue  => e
+        return Failure.new(e) if whitelisted_error?(e.class)
+        raise e
       end
 
       def call!(options = {})
-        options.empty? ? new.call! : new(options).call!
+        options.empty? ? new.send(:call!) : new(options).send(:call!)
       end
     end
 
     private
-    # `call` should not be implemented in subclasses
-    def call
-      Success(call!)
-    rescue => e
-      return Failure(e) if whitelisted_error?(e.class)
-
-      raise
-    end
-
-    def whitelisted_error?(error_klass)
+    def self.whitelisted_error?(error_klass)
       error_klass == Hanikamu::Service::Error ||
-        error_klass.superclass == Hanikamu::Service::Error
+        error_klass.superclass == Hanikamu::Service::Error ||
+        error_klass == Dry::Struct::Error
     end
 
     def response(**args)
