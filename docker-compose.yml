@@ -7,20 +7,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - MALLOC_ARENA_MAX=2
-      - APP_ENV=development
-      - REDIS_URL=redis://redis:6379/1
     volumes:
       - .:/app
     networks:
       - docker-compose-example-tier
-    depends_on:
-      - redis
     volumes:
       - .:/app
-  redis:
-    image: redis:6.0-alpine
-    command: redis-server
     networks:
       - docker-compose-example-tier

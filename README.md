@@ -23,15 +23,15 @@ Services enforce a pattern design as service objects.
 
 #### Principles
 
-- Service will implement ONLY a .call! public instance method.
+- Subclasses of the service should implement a main `.call` instance method.
 
-- A Service.call! will success on it's task or will raise an error
+- A `Service.call!` will success on it's task or will raise an error
 
-- .call! will raise a set of known errors(validation, ...)
+- `.call!` will raise a set of known errors(validation, ...)
 
-- Service.call will success on it's task returning a monadic Success reponse or will fail returning a monadic Failure
+- `Service.call` will success on it's task returning a monadic Success reponse or will fail returning a monadic Failure
 
-- .call will only catch a set of known Service Errors inheriting from Hanikamu::Service::WhiteListedError and it's implemented as a wrapper of .call!
+- `.call` will only catch a set of known Service Errors inheriting from Hanikamu::Service::WhiteListedError and it's implemented as a wrapper of `.call!`
 
 
 #### Responsibilities
@@ -74,7 +74,7 @@ Errors can be corrected by the client passing different input types to the opera
   class MyNewService < Hanikamu::Service
     attribute :string_arg, Types::Strict::String
 
-    def call!
+    def call
       do_something
       do_something_else
 

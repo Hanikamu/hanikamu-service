@@ -19,7 +19,7 @@ module Hanikamu
       end
 
       def call!(options = {})
-        options.empty? ? new.send(:call!) : new(options).send(:call!)
+        options.empty? ? new.send(:call) : new(options).send(:call)
       end
 
       private
@@ -32,6 +32,11 @@ module Hanikamu
     end
 
     private
+
+    def call
+      # Deprecation. Please use `.call` in your subclasses.
+      call!
+    end
 
     def response(**args)
       klass = self.class

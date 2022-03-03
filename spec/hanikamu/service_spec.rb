@@ -21,7 +21,7 @@ RSpec.describe Hanikamu::Service do
       let(:failing_service) do
         class TestFooModule::Bar < Hanikamu::Service
           CustomError = Class.new(self::Error)
-          def call!
+          def call
             raise CustomError, "Oh, yes!"
           end
         end
@@ -40,7 +40,7 @@ RSpec.describe Hanikamu::Service do
           class TestFooModule::Bar < Hanikamu::Service
             attribute :some_string, Dry::Types["string"]
 
-            def call!
+            def call
               "hola"
             end
           end
@@ -63,7 +63,7 @@ RSpec.describe Hanikamu::Service do
       context "when using the custom service error" do
         let(:failing_service) do
           class TestFooModule::Bar < Hanikamu::Service
-            def call!
+            def call
               raise Error, "Oh, no!"
             end
           end
@@ -80,7 +80,7 @@ RSpec.describe Hanikamu::Service do
       context "when the error is not manageable by Hanikamu::Service" do
         let(:failing_service) do
           class TestFooModule::Bar < Hanikamu::Service
-            def call!
+            def call
               raise StandardError, "Unexpected error"
             end
           end
@@ -112,7 +112,7 @@ RSpec.describe Hanikamu::Service do
     let(:response_service) do
       class TestFooModule::Bar < Hanikamu::Service
         attribute :hello, Dry::Types["string"]
-        def call!
+        def call
           response hola: hello
         end
       end
@@ -134,6 +134,5 @@ RSpec.describe Hanikamu::Service do
         expect(response_service.call(hello: conch).success.hola).to be(conch)
       end
     end
-
   end
 end
