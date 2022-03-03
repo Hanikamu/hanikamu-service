@@ -23,7 +23,7 @@ Services enforce a pattern design as service objects.
 
 #### Principles
 
-- Subclasses of the service should implement a main `.call` instance method.
+- Subclasses of the service should implement a main `.call!` instance method.
 
 - A `Service.call!` will success on it's task or will raise an error
 
@@ -74,16 +74,12 @@ Errors can be corrected by the client passing different input types to the opera
   class MyNewService < Hanikamu::Service
     attribute :string_arg, Types::Strict::String
 
-    def call
+    def call!
       do_something
       do_something_else
 
       response nice_semantic_response: do_something_else
     end
-
-    attr_reader :something, :something_else 
-
-    Response = Struct.new(:nice_semantic_response, keyword_init: true)
 
     def do_something
       raise Error, "something is missing"  if string_arg.empty?
