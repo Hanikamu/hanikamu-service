@@ -32,7 +32,7 @@ module Hanikamu
     end
 
     private
-    
+
     def response(**args)
       klass = self.class
       klass.const_set(:Response, Struct.new(*args.keys, keyword_init: true)) unless klass.const_defined?(:Response)
