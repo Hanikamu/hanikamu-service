@@ -2,6 +2,5 @@
 March 03 2022
 
 #### Added
-- Switch to use `.call` as the main instance method.
-  We recomend to start deprecating the usage of `.call!` but nevertheless
-  it will be supported in future versions. 
+- Add the response helper.
+  Refactor the code a bit :)
