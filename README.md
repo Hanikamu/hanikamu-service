@@ -23,15 +23,15 @@ Services enforce a pattern design as service objects.
 
 #### Principles
 
-- Service will implement ONLY a .call! public instance method.
+- Subclasses of the service should implement a main `.call!` instance method.
 
-- A Service.call! will success on it's task or will raise an error
+- A `Service.call!` will success on it's task or will raise an error
 
-- .call! will raise a set of known errors(validation, ...)
+- `.call!` will raise a set of known errors(validation, ...)
 
-- Service.call will success on it's task returning a monadic Success reponse or will fail returning a monadic Failure
+- `Service.call` will success on it's task returning a monadic Success reponse or will fail returning a monadic Failure
 
-- .call will only catch a set of known Service Errors inheriting from Hanikamu::Service::WhiteListedError and it's implemented as a wrapper of .call!
+- `.call` will only catch a set of known Service Errors inheriting from Hanikamu::Service::WhiteListedError and it's implemented as a wrapper of `.call!`
 
 
 #### Responsibilities
@@ -77,12 +77,9 @@ Errors can be corrected by the client passing different input types to the opera
     def call!
       do_something
       do_something_else
-      response_method
+
+      response nice_semantic_response: do_something_else
     end
-
-    attr_reader :something, :something_else 
-
-    Response = Struct.new(:nice_semantic_response, keyword_init: true)
 
     def do_something
       raise Error, "something is missing"  if string_arg.empty?
@@ -93,16 +90,21 @@ Errors can be corrected by the client passing different input types to the opera
       raise Error, "something else is missing" if string_arg.empty?
       "You said: #{string_arg}"
     end
-
-    def response_method
-      # could be anything. In this example a Struct object.(return_only_the_banana)
-      Response.new(nice_semantic_response: do_something_else)
-    end
   end
 
   response = MyNewService.call!(string_arg: "Hola caracola")
 
   monadic_response = MyNewService.call(string_arg: "Hola caracola")
   monadic_response.success if monadic_response.success?
-
 ```
+
+#### Using docker
+
+  Rename Makefile.example to Makefile
+  - `make build` for building the image
+  - `make shell` to get a shell console with the ruby environment
+  - `make console` get a ruby console
+  - `make rspec` run the specs
+
+
+  

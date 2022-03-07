@@ -1,0 +1,17 @@
+version: "3"
+networks:
+  docker-compose-example-tier:
+    driver: bridge
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    networks:
+      - docker-compose-example-tier
+    volumes:
+      - .:/app
+    networks:
+      - docker-compose-example-tier

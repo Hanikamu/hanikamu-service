@@ -4,10 +4,10 @@ $LOAD_PATH.push File.expand_path("lib", __dir__)
 
 Gem::Specification.new do |s|
   s.name = "hanikamu-service"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
   s.authors = ["Nicolai Seerup", "Alejandro Jimenez"]
   s.summary = "This is the base service for all pattern designs used in hanikamu design"
-  s.required_ruby_version = "> 2.5"
+  s.required_ruby_version = ">= 2.7"
 
   s.homepage      = "https://github.com/Hanikamu/hanikamu-service"
   s.license       = "MIT"
@@ -22,4 +22,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry", ">= 0.14.0"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~> 3.0"
+  s.add_development_dependency "rubocop", "> 1.25"
+  s.add_development_dependency "rubocop-performance"
+  s.add_development_dependency "rubocop-rspec"
+  s.metadata["rubygems_mfa_required"] = "true"
 end
