@@ -97,3 +97,14 @@ Errors can be corrected by the client passing different input types to the opera
   monadic_response = MyNewService.call(string_arg: "Hola caracola")
   monadic_response.success if monadic_response.success?
 ```
+
+#### Using docker
+
+  Rename Makefile.example to Makefile
+  - `make build` for building the image
+  - `make shell` to get a shell console with the ruby environment
+  - `make console` get a ruby console
+  - `make rspec` run the specs
+
+
+  

@@ -1,5 +1,4 @@
-
-	
+ 
 ifeq ($(NIX_TYPE),Linux)
 	SED_OPTS = -i
 endif
@@ -11,4 +10,16 @@ endif
 
 .PHONY: shell
 shell: ## access to the system console
-	docker-compose run --rm app sh
+	sudo docker-compose run --rm app sh
+
+.PHONY: build
+build: ## build the image
+	sudo docker-compose build
+
+.PHONY: console
+console: ## build the image
+	sudo docker-compose run --rm app sh -c "bin/console"
+
+.PHONY: rspec
+rspec: ## build the image
+	sudo docker-compose run --rm app sh -c "bundle exec rspec"
