@@ -1,5 +1,5 @@
 # Base image
-FROM ruby:3.1.0-alpine
+FROM ruby:3.2.1-slim
 
 # Add our Gemfile and install gems
 ADD Gemfile* ./

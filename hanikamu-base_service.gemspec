@@ -18,12 +18,5 @@ Gem::Specification.new do |s|
   s.add_dependency "dry-monads", "~> 1"
   s.add_dependency "dry-struct", "~> 1"
 
-  s.add_development_dependency "bundler", ">= 2"
-  s.add_development_dependency "pry", ">= 0.14.0"
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "~> 3.0"
-  s.add_development_dependency "rubocop", "> 1.25"
-  s.add_development_dependency "rubocop-performance"
-  s.add_development_dependency "rubocop-rspec"
   s.metadata["rubygems_mfa_required"] = "true"
 end
