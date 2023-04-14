@@ -5,5 +5,6 @@ module Hanikamu
   class Operation < Hanikamu::Service
     include AsyncService
     include Form
+    include Guard
   end
 end

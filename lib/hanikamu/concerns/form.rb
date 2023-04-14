@@ -25,7 +25,9 @@ module Hanikamu
       def call!(options = {})
         form = new(options)
 
-        form.valid? ? form.send(:call!) : raise(Error, form)
+        raise(Error, form) unless form.valid?
+
+        super
       end
     end
   end

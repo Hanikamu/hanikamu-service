@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_job"
+require "hanikamu/concerns/application-job"
 
 module Hanikamu
   # This module extends ActiveSupport::Concern and adds async and retry
