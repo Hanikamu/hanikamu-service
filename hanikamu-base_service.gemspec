@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "activejob"
+  s.add_dependency "activemodel"
   s.add_dependency "dry-monads", "~> 1"
   s.add_dependency "dry-struct", "~> 1"
 

@@ -3,6 +3,7 @@ PATH
   specs:
     hanikamu-service (0.1.2)
       activejob
+      activemodel
       dry-monads (~> 1)
       dry-struct (~> 1)
 
@@ -12,6 +13,8 @@ GEM
     activejob (7.0.4.3)
       activesupport (= 7.0.4.3)
       globalid (>= 0.3.6)
+    activemodel (7.0.4.3)
+      activesupport (= 7.0.4.3)
     activesupport (7.0.4.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -105,6 +108,7 @@ PLATFORMS
 
 DEPENDENCIES
   activejob
+  activemodel
   bundler (>= 2)
   hanikamu-service!
   pry (>= 0.14.0)

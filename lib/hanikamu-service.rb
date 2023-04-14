@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require "hanikamu/application-job"
-require "hanikamu/async-service"
-require "hanikamu/operation"
 require "hanikamu/service"
+require "hanikamu/concerns/application-job"
+require "hanikamu/concerns/async-service"
+require "hanikamu/concerns/form"
+require "hanikamu/operation"

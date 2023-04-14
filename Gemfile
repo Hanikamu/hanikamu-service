@@ -12,6 +12,7 @@ gemspec
 eval_gemfile "./Gemfile.runtime"
 
 gem "activejob"
+gem "activemodel"
 gem "bundler", ">= 2"
 gem "pry", ">= 0.14.0"
 gem "rake"
