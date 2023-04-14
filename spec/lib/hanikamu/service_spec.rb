@@ -117,7 +117,6 @@ RSpec.describe Hanikamu::Service do
     end
   end
 
-
   context "when using response helper" do
     let(:response_service) do
       class TestFooModule::Bar < Hanikamu::Service

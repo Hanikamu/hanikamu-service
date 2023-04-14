@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{config,lib}/**/*", "Rakefile"]
   s.require_paths = ["lib"]
 
+  s.add_dependency "activejob"
   s.add_dependency "dry-monads", "~> 1"
   s.add_dependency "dry-struct", "~> 1"
 
