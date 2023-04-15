@@ -23,7 +23,7 @@ module Hanikamu
 
   # Call the service using SomeService::Async in order
   # to run it asynchronously.
-  module AsyncService
+  module Async
     extend ActiveSupport::Concern
 
     class_methods do

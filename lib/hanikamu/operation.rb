@@ -3,7 +3,7 @@
 module Hanikamu
   # :nodoc
   class Operation < Hanikamu::Service
-    include AsyncService
+    include Async
     include Form
     include Guard
   end

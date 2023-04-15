@@ -23,7 +23,7 @@ module Hanikamu
 
     class_methods do
       def call!(options = {})
-        form = new(options)
+        form = options.empty? ? new : new(options)
 
         raise(Error, form) unless form.valid?
 

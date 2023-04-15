@@ -2,10 +2,10 @@
 
 require "spec_helper"
 
-RSpec.describe Hanikamu::AsyncService do
+RSpec.describe Hanikamu::Async do
   let(:service) do
     class TestFooModule::Bar < Hanikamu::Service
-      include Hanikamu::AsyncService
+      include Hanikamu::Async
 
       def call!
         "hola"

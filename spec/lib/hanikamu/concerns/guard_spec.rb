@@ -8,7 +8,7 @@ RSpec.describe Hanikamu::Guard do
       include Hanikamu::Guard
       attribute :context, Dry::Types["hash"]
 
-      guards do
+      guard do
         validates :state, inclusion: { in: %w[done] }
       end
 
@@ -67,7 +67,7 @@ RSpec.describe Hanikamu::Guard do
       end
     end
 
-    context "when guards are not defined" do
+    context "when guard are not defined" do
       let(:service) do
         class TestFooModule::Bar < Hanikamu::Service
           include Hanikamu::Guard
@@ -99,7 +99,7 @@ RSpec.describe Hanikamu::Guard do
           include Hanikamu::Guard
           attribute :context, Dry::Types["hash"]
 
-          guards do
+          guard do
             validates :state, inclusion: { in: %w[done] }
           end
 

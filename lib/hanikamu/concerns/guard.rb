@@ -19,14 +19,14 @@ module Hanikamu
     end
 
     class_methods do
-      def guards(&block)
-        @guard_validations = self::GuardValidations.set_validations(&block)
+      def guard(&block)
+        @@guard ||= self::GuardValidations.set_validations(&block)
       end
 
       def call!(options = {})
-        if @guard_validations
-          service = new(options)
-          guard = @guard_validations.new(service: service)
+        if @@guard
+          service = options.empty? ? new : new(options)
+          guard = @@guard.new(service: service)
 
           raise(Error, guard) unless guard.valid?
         end
