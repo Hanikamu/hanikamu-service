@@ -6,8 +6,11 @@ require "dry-monads"
 module Hanikamu
   # :nodoc
   class Service < Dry::Struct
+    extend Dry::Configurable
     extend Dry::Monads[:result]
     Error = Class.new(StandardError)
+
+    setting :whitelisted_errors, default: []
 
     class << self
       def call(options = {})
@@ -27,7 +30,8 @@ module Hanikamu
       def whitelisted_error?(error_klass)
         error_klass == Hanikamu::Service::Error ||
           error_klass.superclass == Hanikamu::Service::Error ||
-          error_klass == Dry::Struct::Error
+          error_klass == Dry::Struct::Error ||
+          config.whitelisted_errors.include?(error_klass)
       end
     end
 

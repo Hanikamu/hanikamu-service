@@ -1,17 +1,11 @@
-version: "3"
+version: "3.6"
 networks:
-  docker-compose-example-tier:
+  hanikamu-service-network:
     driver: bridge
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     volumes:
       - .:/app
     networks:
-      - docker-compose-example-tier
-    volumes:
-      - .:/app
-    networks:
-      - docker-compose-example-tier
+      - hanikamu-service-network

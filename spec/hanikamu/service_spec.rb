@@ -2,11 +2,49 @@
 
 require "spec_helper"
 
+
 RSpec.describe Hanikamu::Service do
+  module Types
+    include Dry.Types()
+  end
+
   describe "#new" do
     it "is private" do
       expect { described_class.new }
         .to raise_error(NoMethodError)
+    end
+  end
+
+  describe ".config" do
+    describe "#whitelisted_errors" do
+      let(:error) { Class.new(StandardError) }
+      let(:service_with_error) do
+        Class.new(described_class) do
+          attribute :error, Types::Strict::Class
+
+          def call!
+            raise error, "Oh, no!"
+          end
+
+          define_singleton_method(:name) { "RSpecServiceWithError" }
+        end
+      end
+
+      it "raises an error when the error is not whitelisted" do
+        expect { service_with_error.call(error:) }.to raise_error(error)
+      end
+
+      context "when the error is whitelisted" do
+        before do
+          described_class.configure do |config|
+            config.whitelisted_errors = [error]
+          end
+        end
+
+        it "returns a Failure object when the error is whitelisted" do
+          expect(service_with_error.call(error:)).to be_a(Dry::Monads::Failure)
+        end
+      end
     end
   end
 
@@ -16,17 +54,17 @@ RSpec.describe Hanikamu::Service do
     end
   end
 
-
   context "when passing the wrong argument type" do
     let(:failing_service) do
-      class TestFooModule::Bar < Hanikamu::Service
+      Class.new(described_class) do
         attribute :some_string, Dry::Types["string"]
 
         def call!
           "hola"
         end
+
+        define_singleton_method(:name) { "RSpecFailingService" }
       end
-      TestFooModule::Bar
     end
 
     describe ".call" do
@@ -44,12 +82,13 @@ RSpec.describe Hanikamu::Service do
 
   context "when raising a Hanikam::Service::Error" do
     let(:failing_service) do
-      class TestFooModule::Bar < Hanikamu::Service
+      Class.new(described_class) do
         def call!
-          raise Error, "Oh, no!"
+          raise Hanikamu::Service::Error, "Oh, no!"
         end
+
+        define_singleton_method(:name) { "RSpecFailingService" }
       end
-      TestFooModule::Bar
     end
 
     describe ".call" do
@@ -67,41 +106,46 @@ RSpec.describe Hanikamu::Service do
     end
   end
 
-  context "when raising a custom error inheriting from Hanikamu::Service::Error" do  
-      let(:failing_service) do
-        class TestFooModule::Bar < Hanikamu::Service
-          CustomError = Class.new(self::Error)
-          def call!
-            raise CustomError, "Oh, yes!"
-          end
+  context "when raising a custom error inheriting from Hanikamu::Service::Error" do
+    let(:failing_service) do
+      Class.new(described_class) do
+        attribute :error, Types::Strict::Class
+
+        def call!
+          raise error, "Oh, yes!"
         end
-        TestFooModule::Bar
+
+        define_singleton_method(:name) { "RSpecFailingService" }
       end
+    end
+    let(:error) { Class.new(Hanikamu::Service::Error) }
 
     describe ".call" do
+
       it "returns a failure monad for errors inheriting from WhiteListedError" do
-        expect(failing_service.call).to be_a(Dry::Monads::Failure)
-        expect(failing_service.call.failure).to be_a(failing_service::CustomError)
-        expect(failing_service.call.failure.message).to eq("Oh, yes!")
-        expect(failing_service.call.failure.class.superclass).to be(Hanikamu::Service::Error)
+        expect(failing_service.call(error:)).to be_a(Dry::Monads::Failure)
+        expect(failing_service.call(error:).failure).to be_a(error)
+        expect(failing_service.call(error:).failure.message).to eq("Oh, yes!")
+        expect(failing_service.call(error:).failure.class.superclass).to be(Hanikamu::Service::Error)
       end
     end
 
     describe ".call!" do
       it "returns a failure monad for Hanikamu::Service::Error" do
-        expect { failing_service.call! }.to raise_error(failing_service::CustomError, "Oh, yes!")
+        expect { failing_service.call!(error:) }.to raise_error(error, "Oh, yes!")
       end
     end
   end
 
   context "when the error is not manageable by Hanikamu::Service" do
     let(:failing_service) do
-      class TestFooModule::Bar < Hanikamu::Service
+      Class.new(described_class) do
         def call!
           raise StandardError, "Unexpected error"
         end
+
+        define_singleton_method(:name) { "RSpecFailingService" }
       end
-      TestFooModule::Bar
     end
 
     describe ".call" do
@@ -117,16 +161,16 @@ RSpec.describe Hanikamu::Service do
     end
   end
 
-
   context "when using response helper" do
     let(:response_service) do
-      class TestFooModule::Bar < Hanikamu::Service
+      Class.new(described_class) do
         attribute :hello, Dry::Types["string"]
         def call!
           response hola: hello
         end
+
+        define_singleton_method(:name) { "RSpecResponseService" }
       end
-      TestFooModule::Bar
     end
 
     let(:conch) { "caracola" }
