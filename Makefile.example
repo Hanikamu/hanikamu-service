@@ -23,3 +23,7 @@ console: ## build the image
 .PHONY: rspec
 rspec: ## build the image
 	sudo docker-compose run --rm app sh -c "bundle exec rspec"
+
+.PHONY: rubocop
+rubocop:
+	sudo docker-compose run --rm app sh -c "bundle exec rubocop"
