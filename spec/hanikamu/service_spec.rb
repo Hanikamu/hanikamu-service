@@ -2,6 +2,10 @@
 
 require "spec_helper"
 
+module Types
+  include Dry.Types()
+end
+
 RSpec.describe Hanikamu::Service do
   describe "#new" do
     it "is private" do
@@ -10,12 +14,44 @@ RSpec.describe Hanikamu::Service do
     end
   end
 
+  describe ".config" do
+    describe "#whitelisted_errors" do
+      let(:error) { Class.new(StandardError) }
+      let(:service_with_error) do
+        Class.new(described_class) do
+          attribute :error, Types::Strict::Class
+
+          def call!
+            raise error, "Oh, no!"
+          end
+
+          define_singleton_method(:name) { "RSpecServiceWithError" }
+        end
+      end
+
+      it "raises an error when the error is not whitelisted" do
+        expect { service_with_error.call(error:) }.to raise_error(error)
+      end
+
+      context "when the error is whitelisted" do
+        before do
+          described_class.configure do |config|
+            config.whitelisted_errors = [error]
+          end
+        end
+
+        it "returns a Failure object when the error is whitelisted" do
+          expect(service_with_error.call(error:)).to be_a(Dry::Monads::Failure)
+        end
+      end
+    end
+  end
+
   describe "#call!" do
     it "has to be declared in subclasses" do
       expect { described_class.call! }.to raise_error(NoMethodError)
     end
   end
-
 
   context "when passing the wrong argument type" do
     let(:failing_service) do
@@ -67,7 +103,7 @@ RSpec.describe Hanikamu::Service do
     end
   end
 
-  context "when raising a custom error inheriting from Hanikamu::Service::Error" do  
+  context "when raising a custom error inheriting from Hanikamu::Service::Error" do
       let(:failing_service) do
         class TestFooModule::Bar < Hanikamu::Service
           CustomError = Class.new(self::Error)

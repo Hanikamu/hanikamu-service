@@ -7,18 +7,13 @@
 #### Definition
 Services enforce a pattern design as service objects.
 
-#### Why?
-- We want SRP(single responsibility classes) for easier testing.
-
-- We want to have a common pattern on our service design preventing a fragmentation of patterns.
-
-- We want to avoid business logic in our models.
-
-- We want to test our business logic in isolation.
-
-- We want a complete overview over our domain model and business logic transactions
-
-- We want to express intent over data structure.
+#### Objectives
+- Adherence to the Single Responsibility Principle for simplified testing.
+- Establishment of a uniform pattern for service design to prevent divergent practices.
+- Removal of business logic from models to maintain clean architecture.
+- Isolation of business logic for focused testing.
+- Comprehensive understanding of domain models and business transactions.
+- Emphasis on clear intent rather than mere data structuring.
 
 
 #### Principles
@@ -27,11 +22,11 @@ Services enforce a pattern design as service objects.
 
 - A `Service.call!` will success on it's task or will raise an error
 
-- `.call!` will raise a set of known errors(validation, ...)
+- `.call!` will raise a predefined set of errors (e.g., validation errors).
 
-- `Service.call` will success on it's task returning a monadic Success reponse or will fail returning a monadic Failure
+- `Service.call` should either successfully return a Success response or a Failure response in a monadic format.
 
-- `.call` will only catch a set of known Service Errors inheriting from Hanikamu::Service::WhiteListedError and it's implemented as a wrapper of `.call!`
+- `.call` will catch only specific Service Errors inheriting from Hanikamu::Service::WhiteListedError and it's implemented as a wrapper of `.call!`
 
 
 #### Responsibilities
@@ -58,13 +53,12 @@ Services enforce a pattern design as service objects.
   - When asking for a banana return only the banana
     https://www.johndcook.com/blog/2011/07/19/you-wanted-banana/ 
 
-###### Schema
+###### Schema Validation
 Checks if the input types are valid.
-E.g. job_id is required and of type integer
-Errors can be corrected by the client passing different input types to the operation
+- Validates input types (e.g., ensuring job_id is an integer and required).
+- Errors can be corrected by the client passing different input types to the service.
 
-#### Example
-
+#### Example Usage
 
 ```ruby
   module Types
@@ -98,6 +92,21 @@ Errors can be corrected by the client passing different input types to the opera
   monadic_response.success if monadic_response.success?
 ```
 
+
+#### Configuration
+
+If you wish to include additional error classes to the existing whitelisted_errors array, which is used for determining which errors should result in a Failure response when calling services without a bang (e.g., SomeService.call), you can do so by appending these classes to the whitelisted_errors list in an initializer.
+
+```ruby
+
+# in initializer config/initializers/hanikamu_service
+
+Hanikamu::Service.configure do |config|
+  config.whitelisted_errors = [SomeError]
+end
+
+```
+
 #### Using docker
 
   Rename Makefile.example to Makefile
@@ -105,6 +114,3 @@ Errors can be corrected by the client passing different input types to the opera
   - `make shell` to get a shell console with the ruby environment
   - `make console` get a ruby console
   - `make rspec` run the specs
-
-
-  
