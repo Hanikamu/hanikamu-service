@@ -189,4 +189,44 @@ RSpec.describe Hanikamu::Service do
       end
     end
   end
+
+  context "when yielding to a block" do
+    let(:yielding_service) do
+      Class.new(described_class) do
+        attribute :addition, Types::Integer
+
+        def call!(&block)
+          raise Hanikamu::Service::Error, "No block given" unless block
+
+          yield(1 + addition)
+        end
+
+        define_singleton_method(:name) { "RSpecYieldingService" }
+      end
+    end
+
+    describe ".call!" do
+      it "yields the value when called with a block" do
+        yielding_service.call!(addition: 3) do |value|
+          expect(value).to eq(4)
+        end
+      end
+
+      it "raises an error when called without a block" do
+        expect { yielding_service.call!(addition: 3) }.to raise_error(Hanikamu::Service::Error, "No block given")
+      end
+    end
+
+    describe ".call" do
+      it "yields the value when called with a block" do
+        yielding_service.call(addition: 3) do |value|
+          expect(value).to eq(4)
+        end
+      end
+
+      it "returns a Failure when called without a block" do
+        expect(yielding_service.call(addition: 3)).to be_a(Dry::Monads::Failure)
+      end
+    end
+  end
 end
