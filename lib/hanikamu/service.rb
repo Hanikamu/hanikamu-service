@@ -13,16 +13,18 @@ module Hanikamu
     setting :whitelisted_errors, default: []
 
     class << self
-      def call(options = {})
-        Success(call!(options))
+      def call(options = {}, &block)
+        Success(call!(options, &block))
       rescue StandardError => e
         return Failure.new(e) if whitelisted_error?(e.class)
 
         raise e
       end
 
-      def call!(options = {})
-        options.empty? ? new.send(:call!) : new(options).send(:call!)
+      def call!(options = {}, &block)
+        instance = options.empty? ? new : new(options)
+
+        block ? instance.call!(&block) : instance.call!
       end
 
       private

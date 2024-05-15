@@ -1,3 +1,9 @@
+## v0.1.5
+May 15 2024
+
+#### Added
+Allow yielding to a block when implementing call! method
+
 ## v0.1.4
 January 30 2024
 
