@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "dry-configurable", "~> 1.1.0"
   s.add_dependency "dry-monads", "~> 1.6.0"
-  s.add_dependency "dry-struct", "~> 1.6.0"
+  s.add_dependency "dry-struct", "~> 1.8.0"
 
   s.metadata["rubygems_mfa_required"] = "true"
 end
