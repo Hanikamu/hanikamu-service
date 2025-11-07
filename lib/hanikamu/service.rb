@@ -8,13 +8,14 @@ module Hanikamu
   class Service < Dry::Struct
     extend Dry::Configurable
     extend Dry::Monads[:result]
+
     Error = Class.new(StandardError)
 
     setting :whitelisted_errors, default: []
 
     class << self
-      def call(options = {}, &block)
-        Success(call!(options, &block))
+      def call(options = {}, &)
+        Success(call!(options, &))
       rescue StandardError => e
         return Failure.new(e) if whitelisted_error?(e.class)
 
