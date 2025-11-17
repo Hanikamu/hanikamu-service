@@ -11,10 +11,11 @@ gemspec
 
 eval_gemfile "./Gemfile.runtime"
 
-gem "bundler", ">= 2"
-gem "pry", ">= 0.14.0"
-gem "rake"
-gem "rspec", "~> 3.0"
-gem "rubocop"
-gem "rubocop-performance"
-gem "rubocop-rspec"
+group :development do
+  gem "pry", ">= 0.14.0"
+  gem "rake"
+  gem "rspec", "~> 3.0"
+  gem "rubocop"
+  gem "rubocop-performance"
+  gem "rubocop-rspec"
+end
